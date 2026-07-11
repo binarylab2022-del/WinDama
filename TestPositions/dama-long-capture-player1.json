@@ -1,0 +1,99 @@
+{
+  "name": "Dama long capture - Player 1",
+  "notes": "Player 1 Dama at (6,2) must capture the piece at (4,4) and may land beyond it. Used to test flying-Dama capture landing squares.",
+  "boardRows": [
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      -1,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      2,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  ],
+  "currentPlayer": 1,
+  "gameMode": "HumanVsHuman",
+  "isGameOver": false,
+  "createdUtc": "2026-07-09T00:00:00Z",
+  "expectedBestMoves": [
+    "6,2x3,5 (1)",
+    "6,2x2,6 (1)",
+    "6,2x1,7 (1)"
+  ],
+  "expectedEvaluationSign": "positive",
+  "expectedLegalMoveCount": 3,
+  "expectedCaptureMoveCount": 3,
+  "expectedMinBestMoveCaptureCount": 1
+}

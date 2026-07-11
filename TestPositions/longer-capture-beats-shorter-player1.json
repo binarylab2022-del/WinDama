@@ -1,0 +1,95 @@
+{
+  "name": "Longer capture beats shorter - Player 1",
+  "notes": "One Player 1 man has a two-piece capture while another has a one-piece capture. Only the longer sequence is legal.",
+  "boardRows": [
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      -1,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      -1,
+      0,
+      0,
+      0,
+      -1,
+      0
+    ],
+    [
+      0,
+      1,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  ],
+  "currentPlayer": 1,
+  "gameMode": "HumanVsHuman",
+  "isGameOver": false,
+  "createdUtc": "2026-07-10T00:00:00Z",
+  "expectedBestMove": "6,2x2,6 (2)",
+  "expectedEvaluationSign": "positive",
+  "expectedLegalMoveCount": 1,
+  "expectedCaptureMoveCount": 1,
+  "expectedMinBestMoveCaptureCount": 2
+}

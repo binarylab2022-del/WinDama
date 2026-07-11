@@ -1,0 +1,19 @@
+{
+  "manValue": 100,
+  "damaValue": 380,
+  "winLikeCaptureSwing": 55,
+  "mobilityWeight": 3,
+  "damaMobilityWeight": 3,
+  "centerManBonus": 6,
+  "centerDamaBonus": 10,
+  "edgeSafetyBonus": 3,
+  "backRowGuardBonus": 5,
+  "advancedManWeight": 11,
+  "promotionThreatBonus": 75,
+  "nearPromotionBonus": 40,
+  "vulnerableManPenalty": 50,
+  "vulnerableDamaPenalty": 130,
+  "protectedManBonus": 8,
+  "tempoBonus": 3,
+  "bestCaptureSequenceBonus": 30
+}
