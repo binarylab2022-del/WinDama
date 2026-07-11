@@ -1,0 +1,95 @@
+{
+  "name": "Longest multi-capture - Player 1",
+  "notes": "Player 1 has a longer capture sequence from (6,2); shorter captures must be suppressed.",
+  "boardRows": [
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      -1,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      -1,
+      0,
+      0,
+      0,
+      -1,
+      0
+    ],
+    [
+      0,
+      1,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  ],
+  "currentPlayer": 1,
+  "gameMode": "HumanVsHuman",
+  "isGameOver": false,
+  "createdUtc": "2026-07-09T00:00:00Z",
+  "expectedBestMove": "6,2x2,6 (2)",
+  "expectedEvaluationSign": "positive",
+  "expectedLegalMoveCount": 1,
+  "expectedCaptureMoveCount": 1,
+  "expectedMinBestMoveCaptureCount": 2
+}

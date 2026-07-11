@@ -1,0 +1,466 @@
+<Window x:Class="WinDama.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="WinDama - Algerian/Spanish Checkers"
+        Height="760" Width="980" MinHeight="760" MinWidth="940"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <Storyboard x:Key="MovePieceStoryboard">
+            <DoubleAnimation Storyboard.TargetProperty="(Canvas.Left)" Duration="0:0:1" To="400" />
+            <DoubleAnimation Storyboard.TargetProperty="(Canvas.Top)" Duration="0:0:1" To="200" />
+        </Storyboard>
+
+        <Storyboard x:Key="CapturePieceStoryboard">
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" Duration="0:0:0.5" From="1" To="0" />
+        </Storyboard>
+    </Window.Resources>
+
+    <Grid Name="ChessBoardGrid" Background="#FFF4E5C7">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" MinWidth="420" />
+            <ColumnDefinition Width="380" />
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Row="0" Grid.Column="0" Margin="0" Padding="0" Background="#FFEED9B5" CornerRadius="0">
+            <Canvas Name="myCanvas" MinWidth="420" MinHeight="420" Background="Transparent" MouseDown="ChessBoardGrid_MouseDown" SizeChanged="BoardCanvas_SizeChanged" />
+        </Border>
+
+        <!-- Hidden compatibility controls for older experimental code paths. -->
+        <UniformGrid Grid.Row="0" Rows="8" Columns="8" Name="ChessboardGrid" Visibility="Collapsed" />
+        <Canvas Grid.Row="0" x:Name="GameBoardCanvas" Visibility="Collapsed" />
+
+        <!-- Compact command and analysis panel. Move-list panels remain hidden; board highlighting is the primary move guide. -->
+        <Border Grid.Row="0" Grid.Column="1" Margin="0,12,12,12" Padding="16" Background="#FFFDF7EC" CornerRadius="8">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="WinDama" FontSize="28" FontWeight="Bold" Margin="0,0,0,4" />
+                    <TextBlock Text="Algerian / Spanish Checkers" FontSize="14" Opacity="0.75" Margin="0,0,0,18" />
+
+                    <TextBlock Text="Current state" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,6" />
+                    <Border Padding="10" Background="#FFFFFFFF" CornerRadius="6" Margin="0,0,0,14">
+                        <StackPanel>
+                            <TextBlock x:Name="StatusTextBlock" Text="Player 1 to move" FontSize="15" TextWrapping="Wrap" />
+                            <TextBlock x:Name="AnalysisSummaryTextBlock" Text="Analysis not started" FontSize="13" Opacity="0.75" TextWrapping="Wrap" Margin="0,6,0,0" />
+                            <TextBlock x:Name="GameModeValueTextBlock" Text="Human vs AI" FontSize="13" Opacity="0.75" TextWrapping="Wrap" Margin="0,6,0,0" />
+                        </StackPanel>
+                    </Border>
+
+                    <TextBlock Text="Game mode" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,6" />
+                    <ComboBox x:Name="GameModeComboBox" SelectedIndex="0" SelectionChanged="GameModeComboBox_SelectionChanged" Height="30" Margin="0,0,0,14">
+                        <ComboBoxItem Content="Human vs AI" />
+                        <ComboBoxItem Content="Human vs Human" />
+                        <ComboBoxItem Content="AI vs AI" />
+                    </ComboBox>
+
+                    <TextBlock Text="Clock" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,6" />
+                    <Grid Margin="0,0,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Padding="10" Background="#FFFFFFFF" CornerRadius="6" Margin="0,0,5,0">
+                            <StackPanel>
+                                <TextBlock x:Name="player1RoleLabel" Text="Player 1 / Human" FontSize="12" Opacity="0.75" />
+                                <TextBlock x:Name="player1ClockLabel" FontSize="24" FontWeight="SemiBold" />
+                            </StackPanel>
+                        </Border>
+                        <Border Grid.Column="1" Padding="10" Background="#FFFFFFFF" CornerRadius="6" Margin="5,0,0,0">
+                            <StackPanel>
+                                <TextBlock x:Name="player2RoleLabel" Text="Player 2 / AI" FontSize="12" Opacity="0.75" />
+                                <TextBlock x:Name="player2ClockLabel" FontSize="24" FontWeight="SemiBold" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <StackPanel x:Name="GameClockPanel" Orientation="Horizontal" Margin="0,0,0,14">
+                        <TextBlock Text="Clock min" VerticalAlignment="Center" Margin="0,0,8,0" />
+                        <TextBox x:Name="GameClockMinutesTextBox" Text="5" Width="54" HorizontalContentAlignment="Center" Margin="0,0,8,0" />
+                        <Button Content="Reset clock" Height="28" Click="ResetClockButton_Click" />
+                    </StackPanel>
+
+                    <TextBlock Text="Actions" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,6" />
+                    <Button x:Name="AnalyzeButton" Content="Analyze" Click="AnalyzeButton_Click" Height="34" Margin="0,0,0,6" />
+                    <Grid Margin="0,0,0,6">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" x:Name="PauseAnalysisButton" Content="Pause" Height="30" Margin="0,0,4,0" Click="PauseAnalysisButton_Click" />
+                        <Button Grid.Column="1" x:Name="ResumeAnalysisButton" Content="Resume" Height="30" Margin="4,0,4,0" Click="ResumeAnalysisButton_Click" />
+                        <Button Grid.Column="2" x:Name="StopAnalysisButton" Content="Stop" Height="30" Margin="4,0,0,0" Click="StopAnalysisButton_Click" />
+                    </Grid>
+                    <CheckBox x:Name="AutoAnalyzeCheckBox" Content="Auto-analyze after position changes" IsChecked="True" Checked="AutoAnalyzeCheckBox_Changed" Unchecked="AutoAnalyzeCheckBox_Changed" Margin="0,0,0,10" />
+                    <Button x:Name="AboutButton" Content="About / Version" Height="32" Margin="0,0,0,6" Click="AboutButton_Click" />
+                    <Button Content="New Game" Height="34" Margin="0,0,0,6" Click="NewGameButton_Click" />
+                    <Button Content="Undo" Height="34" Margin="0,0,0,6" Click="UndoButton_Click" />
+                    <Button Content="Redo" Height="34" Margin="0,0,0,14" Click="RedoButton_Click" />
+
+                    <TextBlock Text="Board editor / test positions" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,6" />
+                    <Border Padding="10" Background="#FFFFFFFF" CornerRadius="6" Margin="0,0,0,14">
+                        <StackPanel>
+                            <CheckBox x:Name="BoardEditorCheckBox" Content="Enable editor mode" Checked="BoardEditorCheckBox_Changed" Unchecked="BoardEditorCheckBox_Changed" Margin="0,0,0,8" />
+
+                            <TextBlock Text="Piece to place" FontSize="13" Opacity="0.8" Margin="0,0,0,4" />
+                            <ComboBox x:Name="EditorPieceComboBox" SelectedIndex="1" SelectionChanged="EditorPieceComboBox_SelectionChanged" Height="28" Margin="0,0,0,8">
+                                <ComboBoxItem Content="Empty square" Tag="0" />
+                                <ComboBoxItem Content="Player 1 man" Tag="1" />
+                                <ComboBoxItem Content="Player 1 Dama" Tag="2" />
+                                <ComboBoxItem Content="Player 2 man" Tag="-1" />
+                                <ComboBoxItem Content="Player 2 Dama" Tag="-2" />
+                            </ComboBox>
+
+                            <TextBlock Text="Side to move" FontSize="13" Opacity="0.8" Margin="0,0,0,4" />
+                            <ComboBox x:Name="EditorSideToMoveComboBox" SelectedIndex="0" SelectionChanged="EditorSideToMoveComboBox_SelectionChanged" Height="28" Margin="0,0,0,8">
+                                <ComboBoxItem Content="Player 1" />
+                                <ComboBoxItem Content="Player 2" />
+                            </ComboBox>
+
+                            <TextBlock Text="Position name" FontSize="13" Opacity="0.8" Margin="0,0,0,4" />
+                            <TextBox x:Name="PositionNameTextBox" Text="Untitled position" Height="28" Margin="0,0,0,8" />
+                            <TextBlock Text="Notes" FontSize="13" Opacity="0.8" Margin="0,0,0,4" />
+                            <TextBox x:Name="PositionNotesTextBox" Height="48" TextWrapping="Wrap" AcceptsReturn="True" Margin="0,0,0,8" />
+
+                            <UniformGrid Rows="2" Columns="2" Margin="0,0,0,8">
+                                <Button Content="Empty board" Height="30" Margin="0,0,4,4" Click="EditorEmptyBoardButton_Click" />
+                                <Button Content="Start position" Height="30" Margin="4,0,0,4" Click="EditorStartPositionButton_Click" />
+                                <Button Content="Save position" Height="30" Margin="0,4,4,0" Click="SavePositionButton_Click" />
+                                <Button Content="Load position" Height="30" Margin="4,4,0,0" Click="LoadPositionButton_Click" />
+                            </UniformGrid>
+
+                            <TextBlock x:Name="EditorHintTextBlock" Text="Enable editor mode, choose a piece, then click board squares." TextWrapping="Wrap" Opacity="0.65" FontSize="12" />
+                        </StackPanel>
+                    </Border>
+
+                    <TextBlock Text="Tactical benchmark" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,6" />
+                    <Border Padding="10" Background="#FFFFFFFF" CornerRadius="6" Margin="0,0,0,14">
+                        <StackPanel>
+                            <TextBlock Text="Compare evaluation profiles on saved tactical positions and export a CSV report." TextWrapping="Wrap" Opacity="0.75" FontSize="12" Margin="0,0,0,8" />
+
+                            <Grid Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Depth" VerticalAlignment="Center" Margin="0,0,8,6" />
+                                <TextBox Grid.Row="0" Grid.Column="1" x:Name="BenchmarkDepthTextBox" Text="5" Height="26" HorizontalContentAlignment="Center" Margin="0,0,0,6" />
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Max pos." VerticalAlignment="Center" Margin="0,0,8,0" />
+                                <TextBox Grid.Row="1" Grid.Column="1" x:Name="BenchmarkMaxPositionsTextBox" Text="0" Height="26" HorizontalContentAlignment="Center" />
+                            </Grid>
+
+                            <CheckBox x:Name="BenchmarkUseQuiescenceCheckBox" Content="Use quiescence search" IsChecked="True" Margin="0,0,0,4" />
+
+                            <CheckBox x:Name="BenchmarkIncludeLinearEvaluatorCheckBox" Content="Include loaded learned evaluator" IsChecked="True" Margin="0,0,0,8" />
+
+                            <UniformGrid Rows="1" Columns="3" Margin="0,0,0,8">
+                                <Button x:Name="RunBenchmarkButton" Content="Run" Height="30" Margin="0,0,4,0" Click="RunBenchmarkButton_Click" />
+                                <Button x:Name="ExportBenchmarkButton" Content="Export CSV" Height="30" Margin="4,0,4,0" Click="ExportBenchmarkButton_Click" IsEnabled="False" />
+                                <Button Content="Folders" Height="30" Margin="4,0,0,0" Click="BenchmarkFoldersButton_Click" />
+                            </UniformGrid>
+
+                            <TextBlock x:Name="BenchmarkStatusTextBlock" Text="Ready. Max pos. 0 = all bundled positions." TextWrapping="Wrap" Opacity="0.75" FontSize="12" Margin="0,0,0,6" />
+                            <TextBlock x:Name="BenchmarkSummaryTextBlock" Text="No benchmark run yet." TextWrapping="Wrap" FontFamily="Consolas" FontSize="12" />
+                        </StackPanel>
+                    </Border>
+
+                    <TextBlock Text="Evaluation tuner" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,6" />
+                    <Border Padding="10" Background="#FFFFFFFF" CornerRadius="6" Margin="0,0,0,14">
+                        <StackPanel>
+                            <TextBlock Text="Generate local weight variants from the balanced profile, run tactical benchmarks, and export the best tuned profile." TextWrapping="Wrap" Opacity="0.75" FontSize="12" Margin="0,0,0,8" />
+
+                            <Grid Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Variation %" VerticalAlignment="Center" Margin="0,0,8,6" />
+                                <TextBox Grid.Row="0" Grid.Column="1" x:Name="TuningVariationTextBox" Text="15" Height="26" HorizontalContentAlignment="Center" Margin="0,0,0,6" />
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Max variants" VerticalAlignment="Center" Margin="0,0,8,6" />
+                                <TextBox Grid.Row="1" Grid.Column="1" x:Name="TuningMaxVariantsTextBox" Text="32" Height="26" HorizontalContentAlignment="Center" Margin="0,0,0,6" />
+
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="Max pos." VerticalAlignment="Center" Margin="0,0,8,0" />
+                                <TextBox Grid.Row="2" Grid.Column="1" x:Name="TuningMaxPositionsTextBox" Text="0" Height="26" HorizontalContentAlignment="Center" />
+                            </Grid>
+
+                            <UniformGrid Rows="1" Columns="3" Margin="0,0,0,8">
+                                <Button x:Name="RunTuningButton" Content="Tune" Height="30" Margin="0,0,4,0" Click="RunTuningButton_Click" />
+                                <Button x:Name="ExportBestTunedProfileButton" Content="Export best" Height="30" Margin="4,0,4,0" Click="ExportBestTunedProfileButton_Click" IsEnabled="False" />
+                                <Button x:Name="ExportTuningCsvButton" Content="Export CSV" Height="30" Margin="4,0,0,0" Click="ExportTuningCsvButton_Click" IsEnabled="False" />
+                            </UniformGrid>
+
+                            <TextBlock x:Name="TuningStatusTextBlock" Text="Ready. Uses benchmark depth/settings above." TextWrapping="Wrap" Opacity="0.75" FontSize="12" Margin="0,0,0,6" />
+                            <TextBlock x:Name="TuningSummaryTextBlock" Text="No tuning run yet." TextWrapping="Wrap" FontFamily="Consolas" FontSize="12" />
+                        </StackPanel>
+                    </Border>
+
+
+                    <TextBlock Text="Profile tournament" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,6" />
+                    <Border Padding="10" Background="#FFFFFFFF" CornerRadius="6" Margin="0,0,0,14">
+                        <StackPanel>
+                            <TextBlock Text="Run profile-vs-profile AI games, swap colors, rank results, and export CSV/game logs." TextWrapping="Wrap" Opacity="0.75" FontSize="12" Margin="0,0,0,8" />
+
+                            <Grid Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Profile A" VerticalAlignment="Center" Margin="0,0,8,6" />
+                                <ComboBox Grid.Row="0" Grid.Column="1" x:Name="TournamentProfileAComboBox" Height="26" Margin="0,0,0,6" />
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Profile B" VerticalAlignment="Center" Margin="0,0,8,6" />
+                                <ComboBox Grid.Row="1" Grid.Column="1" x:Name="TournamentProfileBComboBox" Height="26" Margin="0,0,0,6" />
+
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="Games/color" VerticalAlignment="Center" Margin="0,0,8,6" />
+                                <TextBox Grid.Row="2" Grid.Column="1" x:Name="TournamentGamesPerColorTextBox" Text="1" Height="26" HorizontalContentAlignment="Center" Margin="0,0,0,6" />
+
+                                <TextBlock Grid.Row="3" Grid.Column="0" Text="Max plies" VerticalAlignment="Center" Margin="0,0,8,0" />
+                                <TextBox Grid.Row="3" Grid.Column="1" x:Name="TournamentMaxPliesTextBox" Text="120" Height="26" HorizontalContentAlignment="Center" />
+                            </Grid>
+
+                            <TextBlock Text="Loaded learned evaluator appears as a tournament profile after Train/Load." TextWrapping="Wrap" Opacity="0.65" FontSize="11" Margin="0,0,0,8" />
+
+                            <UniformGrid Rows="1" Columns="3" Margin="0,0,0,8">
+                                <Button x:Name="RunTournamentButton" Content="Run" Height="30" Margin="0,0,4,0" Click="RunTournamentButton_Click" />
+                                <Button x:Name="ExportTournamentCsvButton" Content="Export CSV" Height="30" Margin="4,0,4,0" Click="ExportTournamentCsvButton_Click" IsEnabled="False" />
+                                <Button x:Name="ExportTournamentLogButton" Content="Export log" Height="30" Margin="4,0,0,0" Click="ExportTournamentLogButton_Click" IsEnabled="False" />
+                            </UniformGrid>
+
+                            <TextBlock x:Name="TournamentStatusTextBlock" Text="Ready. Uses benchmark depth/quiescence settings above." TextWrapping="Wrap" Opacity="0.75" FontSize="12" Margin="0,0,0,6" />
+                            <TextBlock x:Name="TournamentSummaryTextBlock" Text="No tournament run yet." TextWrapping="Wrap" FontFamily="Consolas" FontSize="12" />
+                        </StackPanel>
+                    </Border>
+
+
+                    <TextBlock Text="Opening book" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,6" />
+                    <Border Padding="10" Background="#FFFFFFFF" CornerRadius="6" Margin="0,0,0,14">
+                        <StackPanel>
+                            <TextBlock Text="The built-in opening book is loaded automatically. You can also import .ouv files or build a book from tournament games." TextWrapping="Wrap" Opacity="0.75" FontSize="12" Margin="0,0,0,8" />
+
+                            <Grid Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Max plies" VerticalAlignment="Center" Margin="0,0,8,6" />
+                                <TextBox Grid.Row="0" Grid.Column="1" x:Name="OpeningBookMaxPliesTextBox" Text="16" Height="26" HorizontalContentAlignment="Center" Margin="0,0,0,6" />
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Min games" VerticalAlignment="Center" Margin="0,0,8,6" />
+                                <TextBox Grid.Row="1" Grid.Column="1" x:Name="OpeningBookMinGamesTextBox" Text="1" Height="26" HorizontalContentAlignment="Center" Margin="0,0,0,6" />
+
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="Mode" VerticalAlignment="Center" Margin="0,0,8,0" />
+                                <ComboBox Grid.Row="2" Grid.Column="1" x:Name="OpeningBookModeComboBox" SelectedIndex="0" Height="26">
+                                    <ComboBoxItem Content="Best score" />
+                                    <ComboBoxItem Content="Most played" />
+                                    <ComboBoxItem Content="Exploration" />
+                                </ComboBox>
+                            </Grid>
+
+                            <CheckBox x:Name="UseOpeningBookCheckBox" Content="Use built-in/opening book for AI early moves" IsChecked="True" Margin="0,0,0,8" />
+
+                            <UniformGrid Rows="3" Columns="3" Margin="0,0,0,8">
+                                <Button x:Name="BuildOpeningBookButton" Content="Build" Height="30" Margin="0,0,4,4" Click="BuildOpeningBookButton_Click" />
+                                <Button x:Name="LoadBundledBookButton" Content="Built-in" Height="30" Margin="4,0,4,4" Click="LoadBundledBookButton_Click" />
+                                <Button x:Name="ImportOuvBookButton" Content="Import .ouv" Height="30" Margin="4,0,0,4" Click="ImportOuvBookButton_Click" />
+                                <Button x:Name="LoadGameDatabaseButton" Content="Load DB" Height="30" Margin="0,4,4,4" Click="LoadGameDatabaseButton_Click" />
+                                <Button x:Name="SaveGameDatabaseButton" Content="Save DB" Height="30" Margin="4,4,4,4" Click="SaveGameDatabaseButton_Click" IsEnabled="False" />
+                                <Button x:Name="ExportOpeningBookButton" Content="Export book" Height="30" Margin="4,4,0,4" Click="ExportOpeningBookButton_Click" IsEnabled="False" />
+                                <Button x:Name="OpeningBookStatusButton" Content="Status" Height="30" Margin="0,4,4,0" Click="OpeningBookStatusButton_Click" />
+                                <Button x:Name="ClearOpeningBookButton" Content="Clear" Height="30" Margin="4,4,4,0" Click="ClearOpeningBookButton_Click" />
+                            </UniformGrid>
+
+                            <TextBlock x:Name="OpeningBookStatusTextBlock" Text="Built-in book will load automatically at startup." TextWrapping="Wrap" Opacity="0.75" FontSize="12" Margin="0,0,0,6" />
+                            <TextBlock x:Name="OpeningBookSummaryTextBlock" Text="Book entries: 0" TextWrapping="Wrap" FontFamily="Consolas" FontSize="12" />
+                        </StackPanel>
+                    </Border>
+
+                    <TextBlock Text="Position dataset" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,6" />
+                    <Border Padding="10" Background="#FFFFFFFF" CornerRadius="6" Margin="0,0,0,14">
+                        <StackPanel>
+                            <TextBlock Text="Export training samples from the current game database for future linear, neural, or NNUE-style evaluation training." TextWrapping="Wrap" Opacity="0.75" FontSize="12" Margin="0,0,0,8" />
+
+                            <Grid Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Max samples" VerticalAlignment="Center" Margin="0,0,8,0" />
+                                <TextBox Grid.Column="1" x:Name="DatasetMaxSamplesTextBox" Text="0" Height="26" HorizontalContentAlignment="Center" />
+                            </Grid>
+
+                            <UniformGrid Rows="2" Columns="2" Margin="0,0,0,8">
+                                <Button x:Name="BuildDatasetButton" Content="Build" Height="30" Margin="0,0,4,4" Click="BuildDatasetButton_Click" />
+                                <Button x:Name="ExportDatasetJsonlButton" Content="Export JSONL" Height="30" Margin="4,0,0,4" Click="ExportDatasetJsonlButton_Click" IsEnabled="False" />
+                                <Button x:Name="ExportDatasetCsvButton" Content="Export CSV" Height="30" Margin="0,4,4,0" Click="ExportDatasetCsvButton_Click" IsEnabled="False" />
+                                <Button x:Name="ExportDatasetJsonButton" Content="Export JSON" Height="30" Margin="4,4,0,0" Click="ExportDatasetJsonButton_Click" IsEnabled="False" />
+                            </UniformGrid>
+
+                            <TextBlock x:Name="DatasetStatusTextBlock" Text="No dataset built. Run/load a game database first." TextWrapping="Wrap" Opacity="0.75" FontSize="12" Margin="0,0,0,6" />
+                            <TextBlock x:Name="DatasetSummaryTextBlock" Text="Samples: 0" TextWrapping="Wrap" FontFamily="Consolas" FontSize="12" />
+                        </StackPanel>
+                    </Border>
+
+
+                    <TextBlock Text="Linear evaluator" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,6" />
+                    <Border Padding="10" Background="#FFFFFFFF" CornerRadius="6" Margin="0,0,0,14">
+                        <StackPanel>
+                            <TextBlock Text="Train a transparent linear evaluator from the current position dataset. It can be exported as JSON and optionally used by the AI/search." TextWrapping="Wrap" Opacity="0.75" FontSize="12" Margin="0,0,0,8" />
+
+                            <Grid Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Max samples" VerticalAlignment="Center" Margin="0,0,8,6" />
+                                <TextBox Grid.Row="0" Grid.Column="1" x:Name="LinearMaxSamplesTextBox" Text="0" Height="26" HorizontalContentAlignment="Center" Margin="0,0,0,6" />
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="L2" VerticalAlignment="Center" Margin="0,0,8,0" />
+                                <TextBox Grid.Row="1" Grid.Column="1" x:Name="LinearL2TextBox" Text="0.001" Height="26" HorizontalContentAlignment="Center" />
+                            </Grid>
+
+                            <CheckBox x:Name="UseLinearEvaluatorCheckBox" Content="Use learned evaluator for AI/search" IsChecked="False" Margin="0,0,0,8" />
+
+                            <UniformGrid Rows="1" Columns="3" Margin="0,0,0,8">
+                                <Button x:Name="TrainLinearEvaluatorButton" Content="Train" Height="30" Margin="0,0,4,0" Click="TrainLinearEvaluatorButton_Click" />
+                                <Button x:Name="LoadLinearEvaluatorButton" Content="Load" Height="30" Margin="4,0,4,0" Click="LoadLinearEvaluatorButton_Click" />
+                                <Button x:Name="ExportLinearEvaluatorButton" Content="Export" Height="30" Margin="4,0,0,0" Click="ExportLinearEvaluatorButton_Click" IsEnabled="False" />
+                            </UniformGrid>
+
+                            <TextBlock x:Name="LinearEvaluatorStatusTextBlock" Text="No linear model trained." TextWrapping="Wrap" Opacity="0.75" FontSize="12" Margin="0,0,0,6" />
+                            <TextBlock x:Name="LinearEvaluatorSummaryTextBlock" Text="Model: none" TextWrapping="Wrap" FontFamily="Consolas" FontSize="12" />
+                        </StackPanel>
+                    </Border>
+
+                    <TextBlock Text="AI search" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,6" />
+                    <ComboBox x:Name="AiSearchModeComboBox" SelectedIndex="0" SelectionChanged="AiSearchModeComboBox_SelectionChanged" Height="30" Margin="0,0,0,8">
+                        <ComboBoxItem Content="Fixed depth" />
+                        <ComboBoxItem Content="Fixed time / move" />
+                        <ComboBoxItem Content="Game clock" />
+                    </ComboBox>
+
+                    <StackPanel x:Name="DepthSettingsPanel" Margin="0,0,0,8">
+                        <TextBlock Text="AI depth" FontSize="13" Opacity="0.8" Margin="0,0,0,4" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="34" />
+                                <ColumnDefinition Width="60" />
+                                <ColumnDefinition Width="34" />
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0" Content="-" Height="30" Click="DecreaseDepth_Click" />
+                            <TextBox Grid.Column="1" Name="MinimaxDepthTextBox" Text="5" IsReadOnly="True"
+                                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="6,0" />
+                            <Button Grid.Column="2" Content="+" Height="30" Click="IncreaseDepth_Click" />
+                        </Grid>
+                    </StackPanel>
+
+                    <StackPanel x:Name="TimePerMovePanel" Orientation="Horizontal" Margin="0,0,0,14">
+                        <TextBlock Text="Time / move ms" VerticalAlignment="Center" Margin="0,0,8,0" />
+                        <TextBox x:Name="AiTimePerMoveTextBox" Text="3000" Width="72" HorizontalContentAlignment="Center" />
+                    </StackPanel>
+
+                    <TextBlock Text="Analysis" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,6" />
+                    <Border Padding="10" Background="#FFFFFFFF" CornerRadius="6">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Mode" FontWeight="SemiBold" Margin="0,0,12,4" />
+                            <TextBlock Grid.Row="0" Grid.Column="1" x:Name="SearchModeValueTextBlock" Text="-" Margin="0,0,0,4" />
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Depth" FontWeight="SemiBold" Margin="0,0,12,4" />
+                            <TextBlock Grid.Row="1" Grid.Column="1" x:Name="SearchDepthTextBlock" Text="-" Margin="0,0,0,4" />
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Nodes" FontWeight="SemiBold" Margin="0,0,12,4" />
+                            <TextBlock Grid.Row="2" Grid.Column="1" x:Name="SearchNodesTextBlock" Text="-" Margin="0,0,0,4" />
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Evaluation" FontWeight="SemiBold" Margin="0,0,12,4" />
+                            <TextBlock Grid.Row="3" Grid.Column="1" x:Name="SearchEvalTextBlock" Text="-" Margin="0,0,0,4" />
+                            <TextBlock Grid.Row="4" Grid.Column="0" Text="Best move" FontWeight="SemiBold" Margin="0,0,12,4" />
+                            <TextBlock Grid.Row="4" Grid.Column="1" x:Name="SearchBestMoveTextBlock" Text="-" TextWrapping="Wrap" Margin="0,0,0,4" />
+                            <TextBlock Grid.Row="5" Grid.Column="0" Text="Search time" FontWeight="SemiBold" Margin="0,0,12,4" />
+                            <TextBlock Grid.Row="5" Grid.Column="1" x:Name="SearchTimeTextBlock" Text="-" Margin="0,0,0,4" />
+                            <TextBlock Grid.Row="6" Grid.Column="0" Text="N/s" FontWeight="SemiBold" Margin="0,0,12,4" />
+                            <TextBlock Grid.Row="6" Grid.Column="1" x:Name="SearchNodesPerSecondTextBlock" Text="-" Margin="0,0,0,4" />
+                            <TextBlock Grid.Row="7" Grid.Column="0" Text="Legal/cap" FontWeight="SemiBold" Margin="0,0,12,4" />
+                            <TextBlock Grid.Row="7" Grid.Column="1" x:Name="SearchLegalMovesTextBlock" Text="-" Margin="0,0,0,4" />
+                            <TextBlock Grid.Row="8" Grid.Column="0" Text="Budget" FontWeight="SemiBold" Margin="0,0,12,4" />
+                            <TextBlock Grid.Row="8" Grid.Column="1" x:Name="SearchBudgetTextBlock" Text="-" Margin="0,0,0,4" />
+                            <TextBlock Grid.Row="9" Grid.Column="0" Text="Status" FontWeight="SemiBold" Margin="0,0,12,4" />
+                            <TextBlock Grid.Row="9" Grid.Column="1" x:Name="SearchStatusTextBlock" Text="-" TextWrapping="Wrap" Margin="0,0,0,4" />
+                            <TextBlock Grid.Row="10" Grid.Column="0" Text="TT" FontWeight="SemiBold" Margin="0,0,12,4" />
+                            <TextBlock Grid.Row="10" Grid.Column="1" x:Name="SearchTranspositionTextBlock" Text="-" TextWrapping="Wrap" Margin="0,0,0,4" />
+                            <TextBlock Grid.Row="11" Grid.Column="0" Text="PV" FontWeight="SemiBold" Margin="0,0,12,4" />
+                            <TextBlock Grid.Row="11" Grid.Column="1" x:Name="SearchPrincipalVariationTextBlock" Text="-" TextWrapping="Wrap" FontFamily="Consolas" Margin="0,0,0,4" />
+                            <TextBlock Grid.Row="12" Grid.Column="0" Text="Top 5" FontWeight="SemiBold" Margin="0,0,12,0" />
+                            <TextBlock Grid.Row="12" Grid.Column="1" x:Name="SearchTopMovesTextBlock" Text="-" TextWrapping="Wrap" FontFamily="Consolas" />
+                        </Grid>
+                    </Border>
+
+                    <TextBlock Text="Legal moves are shown directly on the board. The analysis box updates automatically after each position change."
+                               TextWrapping="Wrap" Opacity="0.65" FontSize="12" Margin="0,14,0,0" />
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+
+        <StatusBar Grid.Row="1" Grid.ColumnSpan="2" Background="#FF2F2F2F" Foreground="White" Padding="6,2">
+            <StatusBarItem>
+                <TextBlock x:Name="EngineStatusTextBlock" Text="Engine: initializing" TextWrapping="NoWrap" />
+            </StatusBarItem>
+            <Separator />
+            <StatusBarItem>
+                <TextBlock x:Name="VersionStatusTextBlock" Text="WinDama" TextWrapping="NoWrap" />
+            </StatusBarItem>
+            <Separator />
+            <StatusBarItem HorizontalAlignment="Right">
+                <Button Content="About" Padding="8,1" Click="AboutButton_Click" />
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>

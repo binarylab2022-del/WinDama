@@ -1,0 +1,95 @@
+{
+  "name": "Mandatory capture - Player 1",
+  "notes": "Player 1 at (6,2) must capture Player 2 at (5,3). Quiet moves are illegal.",
+  "boardRows": [
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      -1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  ],
+  "currentPlayer": 1,
+  "gameMode": "HumanVsHuman",
+  "isGameOver": false,
+  "createdUtc": "2026-07-09T00:00:00Z",
+  "expectedBestMove": "6,2x4,4 (1)",
+  "expectedEvaluationSign": "positive",
+  "expectedLegalMoveCount": 1,
+  "expectedCaptureMoveCount": 1,
+  "expectedMinBestMoveCaptureCount": 1
+}

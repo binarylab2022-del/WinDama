@@ -1,0 +1,98 @@
+{
+  "name": "Two equal longest captures - Player 1",
+  "notes": "Player 1 has exactly two legal one-capture choices from the same man. This tests candidate comparison under forced capture.",
+  "boardRows": [
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      -1,
+      0,
+      -1,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  ],
+  "currentPlayer": 1,
+  "gameMode": "HumanVsHuman",
+  "isGameOver": false,
+  "createdUtc": "2026-07-09T00:00:00Z",
+  "expectedBestMoves": [
+    "6,4x4,2 (1)",
+    "6,4x4,6 (1)"
+  ],
+  "expectedEvaluationSign": "positive",
+  "expectedLegalMoveCount": 2,
+  "expectedCaptureMoveCount": 2,
+  "expectedMinBestMoveCaptureCount": 1
+}

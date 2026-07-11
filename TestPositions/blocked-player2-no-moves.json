@@ -1,0 +1,94 @@
+{
+  "name": "Blocked side to move - Player 2",
+  "notes": "Player 2 to move has no legal move because its only man is blocked at the edge. The controller should detect a Player 1 win.",
+  "boardRows": [
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      -1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  ],
+  "currentPlayer": -1,
+  "gameMode": "HumanVsHuman",
+  "isGameOver": false,
+  "createdUtc": "2026-07-09T00:00:00Z",
+  "expectedBestMove": "-",
+  "expectedLegalMoveCount": 0,
+  "expectedCaptureMoveCount": 0,
+  "expectedMinBestMoveCaptureCount": 0
+}

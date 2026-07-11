@@ -1,0 +1,76 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>Resources\256.ico</ApplicationIcon>
+    <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="InstallAware\**" />
+    <EmbeddedResource Remove="InstallAware\**" />
+    <None Remove="InstallAware\**" />
+    <Page Remove="InstallAware\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\1.png" />
+    <None Remove="Resources\2.png" />
+    <None Remove="Resources\3.png" />
+    <None Remove="Resources\4.png" />
+    <None Remove="Sans titre.png" />
+    <None Remove="WinDama1.0.rar" />
+    <None Remove="WinDama1.0.zip" />
+    <None Remove="WinDama1.1.rar" />
+    <None Remove="WinDama1.2.rar" />
+    <None Remove="WinDama1.3.rar" />
+    <None Remove="WinDama1.4.rar" />
+    <None Remove="WinDama1.5.rar" />
+    <None Remove="WinDama1.6.rar" />
+    <None Remove="WinDama1.7.rar" />
+    <None Remove="WinDama1.8.rar" />
+    <None Remove="WinDama1.9.rar" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\256.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\1.png" />
+    <Resource Include="Resources\2.png" />
+    <Resource Include="Resources\3.png" />
+    <Resource Include="Resources\4.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WinDama.Core\WinDama.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md" Link="README.md" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\RELEASE_NOTES.md" Link="RELEASE_NOTES.md" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\LICENSE" Link="LICENSE" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\TestPositions\*.json" Link="TestPositions\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\EvaluationWeights\*.json" Link="EvaluationWeights\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\OpeningBooks\*.ouv" Link="OpeningBooks\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

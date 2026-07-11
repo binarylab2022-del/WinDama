@@ -1,0 +1,45 @@
+# Build output
+bin/
+obj/
+out/
+artifacts/
+TestResults/
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider / JetBrains
+.idea/
+*.sln.iml
+
+# VS Code
+.vscode/
+
+# NuGet
+*.nupkg
+packages/
+
+# Logs and temp
+*.log
+*.tmp
+*.bak
+*.orig
+
+# Archives / installers generated locally
+*.zip
+*.rar
+*.7z
+*.msi
+*.exe
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local app settings / exported datasets
+settings.json
+*.jsonl
+*.csv
