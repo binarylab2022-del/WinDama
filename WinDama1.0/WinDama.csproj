@@ -1,76 +1,130 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWPF>true</UseWPF>
-    <ApplicationIcon>Resources\256.ico</ApplicationIcon>
-    <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWPF>true</UseWPF>
 
-  <ItemGroup>
-    <Compile Remove="InstallAware\**" />
-    <EmbeddedResource Remove="InstallAware\**" />
-    <None Remove="InstallAware\**" />
-    <Page Remove="InstallAware\**" />
-  </ItemGroup>
+		<ApplicationIcon>Resources\256.ico</ApplicationIcon>
 
-  <ItemGroup>
-    <None Remove="Resources\1.png" />
-    <None Remove="Resources\2.png" />
-    <None Remove="Resources\3.png" />
-    <None Remove="Resources\4.png" />
-    <None Remove="Sans titre.png" />
-    <None Remove="WinDama1.0.rar" />
-    <None Remove="WinDama1.0.zip" />
-    <None Remove="WinDama1.1.rar" />
-    <None Remove="WinDama1.2.rar" />
-    <None Remove="WinDama1.3.rar" />
-    <None Remove="WinDama1.4.rar" />
-    <None Remove="WinDama1.5.rar" />
-    <None Remove="WinDama1.6.rar" />
-    <None Remove="WinDama1.7.rar" />
-    <None Remove="WinDama1.8.rar" />
-    <None Remove="WinDama1.9.rar" />
-  </ItemGroup>
+		<!-- Application version -->
+		<Version>1.0.0-preview</Version>
+		<AssemblyVersion>1.0.0.0</AssemblyVersion>
+		<FileVersion>1.0.0.0</FileVersion>
+		<InformationalVersion>1.0.0-preview</InformationalVersion>
 
-  <ItemGroup>
-    <Content Include="Resources\256.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\1.png" />
-    <Resource Include="Resources\2.png" />
-    <Resource Include="Resources\3.png" />
-    <Resource Include="Resources\4.png" />
-  </ItemGroup>
+		<!-- Application metadata -->
+		<AssemblyName>WinDama</AssemblyName>
+		<Product>WinDama</Product>
+		<Title>WinDama</Title>
+		<Description>Open-source Algerian and Spanish checkers engine and desktop application.</Description>
+		<Authors>BinaryLab</Authors>
+		<Company>BinaryLab</Company>
+		<Copyright>Copyright © 2024-2026 BinaryLab</Copyright>
 
-  <ItemGroup>
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
+		<!-- Windows x64 publication -->
+		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+		<SelfContained>true</SelfContained>
 
-  <ItemGroup>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
+		<!-- Produce an executable launcher -->
+		<UseAppHost>true</UseAppHost>
 
-  <ItemGroup>
-    <ProjectReference Include="..\WinDama.Core\WinDama.Core.csproj" />
-  </ItemGroup>
+		<!-- Do not trim WPF assemblies -->
+		<PublishTrimmed>false</PublishTrimmed>
 
-  <ItemGroup>
-    <None Include="..\README.md" Link="README.md" CopyToOutputDirectory="PreserveNewest" />
-    <None Include="..\RELEASE_NOTES.md" Link="RELEASE_NOTES.md" CopyToOutputDirectory="PreserveNewest" />
-    <None Include="..\LICENSE" Link="LICENSE" CopyToOutputDirectory="PreserveNewest" />
-    <None Include="..\TestPositions\*.json" Link="TestPositions\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
-    <None Include="..\EvaluationWeights\*.json" Link="EvaluationWeights\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
-    <None Include="..\OpeningBooks\*.ouv" Link="OpeningBooks\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
-  </ItemGroup>
+		<!-- Keep output predictable -->
+		<PublishSingleFile>false</PublishSingleFile>
+		<DebugType>embedded</DebugType>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Remove="InstallAware\**" />
+		<EmbeddedResource Remove="InstallAware\**" />
+		<None Remove="InstallAware\**" />
+		<Page Remove="InstallAware\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Remove="Resources\1.png" />
+		<None Remove="Resources\2.png" />
+		<None Remove="Resources\3.png" />
+		<None Remove="Resources\4.png" />
+		<None Remove="Sans titre.png" />
+
+		<None Remove="WinDama1.0.rar" />
+		<None Remove="WinDama1.0.zip" />
+		<None Remove="WinDama1.1.rar" />
+		<None Remove="WinDama1.2.rar" />
+		<None Remove="WinDama1.3.rar" />
+		<None Remove="WinDama1.4.rar" />
+		<None Remove="WinDama1.5.rar" />
+		<None Remove="WinDama1.6.rar" />
+		<None Remove="WinDama1.7.rar" />
+		<None Remove="WinDama1.8.rar" />
+		<None Remove="WinDama1.9.rar" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="Resources\256.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Resource Include="Resources\1.png" />
+		<Resource Include="Resources\2.png" />
+		<Resource Include="Resources\3.png" />
+		<Resource Include="Resources\4.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Update="Properties\Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\WinDama.Core\WinDama.Core.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\README.md"
+			  Link="README.md"
+			  CopyToOutputDirectory="PreserveNewest"
+			  CopyToPublishDirectory="PreserveNewest" />
+
+		<None Include="..\RELEASE_NOTES.md"
+			  Link="RELEASE_NOTES.md"
+			  CopyToOutputDirectory="PreserveNewest"
+			  CopyToPublishDirectory="PreserveNewest" />
+
+		<None Include="..\LICENSE"
+			  Link="LICENSE"
+			  CopyToOutputDirectory="PreserveNewest"
+			  CopyToPublishDirectory="PreserveNewest" />
+
+		<None Include="..\TestPositions\*.json"
+			  Link="TestPositions\%(Filename)%(Extension)"
+			  CopyToOutputDirectory="PreserveNewest"
+			  CopyToPublishDirectory="PreserveNewest" />
+
+		<None Include="..\EvaluationWeights\*.json"
+			  Link="EvaluationWeights\%(Filename)%(Extension)"
+			  CopyToOutputDirectory="PreserveNewest"
+			  CopyToPublishDirectory="PreserveNewest" />
+
+		<None Include="..\OpeningBooks\*.ouv"
+			  Link="OpeningBooks\%(Filename)%(Extension)"
+			  CopyToOutputDirectory="PreserveNewest"
+			  CopyToPublishDirectory="PreserveNewest" />
+	</ItemGroup>
 
 </Project>
