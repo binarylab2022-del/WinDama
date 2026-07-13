@@ -1,6 +1,84 @@
-# WinDama - Algerian / Spanish Checkers
+# WinDama — Algerian / Spanish Checkers
 
-WinDama is a WPF desktop application and engine-development environment for Algerian / Spanish checkers. It combines a playable GUI, a separated core rules engine, AI search, tactical benchmarks, evaluation tuning, opening-book support, and dataset export tools for future machine-learning work.
+[![Build](https://github.com/binarylab2022-del/WinDama/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/binarylab2022-del/WinDama/actions/workflows/build.yml)
+[![Tests](https://github.com/binarylab2022-del/WinDama/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/binarylab2022-del/WinDama/actions/workflows/tests.yml)
+![Test baseline](https://img.shields.io/badge/tests-101%20passed-brightgreen)
+[![Release](https://img.shields.io/github/v/release/binarylab2022-del/WinDama?include_prereleases)](https://github.com/binarylab2022-del/WinDama/releases)
+[![License](https://img.shields.io/github/license/binarylab2022-del/WinDama)](LICENSE)
+![Platform](https://img.shields.io/badge/platform-Windows%20x64-blue)
+![Framework](https://img.shields.io/badge/.NET-6.0-purple)
+
+WinDama is an open-source WPF desktop application and engine-development
+environment for Algerian / Spanish checkers. It combines a playable graphical
+interface, a separated rules engine, AI search, tactical benchmarking,
+evaluation tuning, opening-book support, tournament tools, and dataset export.
+
+<p align="center">
+  <img src="docs/screenshots/main-board.png"
+       alt="WinDama main board and analysis interface"
+       width="900">
+</p>
+
+## Highlights
+
+- Mandatory capture and longest multi-capture enforcement
+- Flying Dama movement and capture rules
+- Human vs AI, Human vs Human, and AI vs AI
+- Alpha-beta search with iterative deepening
+- Transposition tables, quiescence search, killer and history heuristics
+- Real-time engine analysis and principal variation
+- Tactical benchmark and evaluation tuner
+- Profile-vs-profile tournament runner
+- Opening-book and game-database tools
+- Dataset export for future learned evaluators
+- 101 passing NUnit tests
+- Bitboard and FPGA-oriented research tracks
+
+## Screenshots
+
+### Mandatory capture and live analysis
+
+<p align="center">
+  <img src="docs/screenshots/capture-analysis.png"
+       alt="Mandatory capture highlighting and continuous engine analysis"
+       width="850">
+</p>
+
+### Evaluation tuning
+
+<p align="center">
+  <img src="docs/screenshots/evaluation-tuner.png"
+       alt="WinDama evaluation weight tuner"
+       width="850">
+</p>
+
+### AI profile tournament
+
+<p align="center">
+  <img src="docs/screenshots/tournament.png"
+       alt="WinDama profile tournament runner"
+       width="850">
+</p>
+
+### Board editor and tactical test positions
+
+<p align="center">
+  <img src="docs/screenshots/board-editor.png"
+       alt="WinDama board editor for tactical positions"
+       width="850">
+</p>
+
+## Download
+
+The current Windows x64 preview release is available from the
+[GitHub Releases page](https://github.com/binarylab2022-del/WinDama/releases).
+
+1. Download the Windows x64 ZIP archive.
+2. Extract all files into the same folder.
+3. Run `WinDama.exe`.
+
+The self-contained package normally does not require a separate .NET
+installation.
 
 ## Open-source project status
 
@@ -399,8 +477,8 @@ Expected baseline for this release:
 From the repository root:
 
 ```powershell
-dotnet restore .\WinDama1.0\WinDama.sln
-dotnet build .\WinDama1.0\WinDama.sln -c Release
+dotnet restore WinDama.sln
+dotnet build WinDama.sln -c Release
 dotnet test .\WinDama.Tests\WinDama.Tests.csproj -c Release
 ```
 
@@ -420,28 +498,6 @@ The release package is created under:
 
 ```text
 artifacts/packages/
-```
-
-
-
-## Upload to GitHub
-
-From the repository root, run:
-
-```powershell
-git init
-git add .
-git commit -m "Initial open-source WinDama release"
-git branch -M main
-git remote add origin https://github.com/binarylab2022-del/WinDama.git
-git push -u origin main
-```
-
-If the remote repository already contains files, pull first:
-
-```powershell
-git pull origin main --allow-unrelated-histories
-git push -u origin main
 ```
 
 ## Basic usage
