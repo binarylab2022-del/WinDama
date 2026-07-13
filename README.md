@@ -10,7 +10,7 @@
 
 WinDama is an open-source WPF desktop application and engine-development
 environment for Algerian / Spanish checkers. It combines a playable graphical
-interface, a separated rules engine, AI search, tactical benchmarking,
+interface, a separate rules engine, AI search, tactical benchmarking,
 evaluation tuning, opening-book support, tournament tools, and dataset export.
 
 <p align="center">
@@ -82,22 +82,14 @@ installation.
 
 ## Open-source project status
 
-This repository is prepared as the GitHub open-source continuation of the earlier SourceForge project **Algerian Spanish Checkers**:
+This repository is the GitHub open-source continuation of the earlier
+[Algerian Spanish Checkers project on SourceForge](https://sourceforge.net/projects/algerian-spanish-checkers/).
 
-```text
-https://sourceforge.net/projects/algerian-spanish-checkers/
-```
+The source code is released under the [MIT License](LICENSE).
 
-GitHub repository:
-
-```text
-https://github.com/binarylab2022-del/WinDama
-```
-
-The source code is released under the MIT License. See `LICENSE` for details.
-
-For contributors, see `CONTRIBUTING.md`.
-For release details, see `RELEASE_NOTES.md`.
+- [Contribution guide](CONTRIBUTING.md)
+- [Release notes](RELEASE_NOTES.md)
+- [GitHub releases](https://github.com/binarylab2022-del/WinDama/releases)
 
 
 ## Current release baseline
@@ -452,15 +444,20 @@ OpeningBooks/
   Bundled .ouv opening-book files
 ```
 
+## Requirements
+
+For development:
+
+- Windows 10 or Windows 11
+- Visual Studio 2022 with the .NET desktop development workload
+- .NET 6 SDK
+
+For the self-contained release package, a separate .NET installation is
+normally not required.
+
 ## Build and test
 
-Open the solution:
-
-```text
-WinDama1.0/WinDama.sln
-```
-
-Then run:
+Open `WinDama.sln` in Visual Studio 2022, then run:
 
 ```text
 Build > Rebuild Solution
@@ -472,6 +469,7 @@ Expected baseline for this release:
 ```text
 101 passed, 0 failed
 ```
+
 ### Command-line build
 
 From the repository root:
@@ -481,6 +479,9 @@ dotnet restore WinDama.sln
 dotnet build WinDama.sln -c Release
 dotnet test .\WinDama.Tests\WinDama.Tests.csproj -c Release
 ```
+
+The same build and test commands are executed automatically by GitHub Actions.
+The badges at the top of this README reflect the latest `main` branch status.
 
 ### Publish Windows x64 release
 
@@ -510,6 +511,15 @@ artifacts/packages/
 6. Use Pause / Resume / Stop to control continuous analysis.
 7. Use the board editor to create tactical positions.
 8. Use benchmark/tuner/tournament panels to evaluate engine profiles.
+
+## Contributing and issue reports
+
+Contributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md)
+before opening a pull request.
+
+For bugs, rule discrepancies, performance regressions, or feature requests,
+open a GitHub issue and include the position, side to move, expected behavior,
+and steps needed to reproduce the problem.
 
 ## Release notes
 
