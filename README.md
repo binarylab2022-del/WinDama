@@ -1,4 +1,4 @@
-# WinDama â€” Algerian / Spanish Checkers
+﻿# WinDama ├تظéشظإ Algerian / Spanish Checkers
 
 [![Build](https://github.com/binarylab2022-del/WinDama/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/binarylab2022-del/WinDama/actions/workflows/build.yml) [![Tests](https://github.com/binarylab2022-del/WinDama/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/binarylab2022-del/WinDama/actions/workflows/tests.yml) ![Test baseline](https://img.shields.io/badge/tests-101%20passed-brightgreen) [![Release](https://img.shields.io/github/v/release/binarylab2022-del/WinDama?include_prereleases)](https://github.com/binarylab2022-del/WinDama/releases) [![License](https://img.shields.io/github/license/binarylab2022-del/WinDama)](LICENSE) ![Platform](https://img.shields.io/badge/platform-Windows%20x64-blue) ![Framework](https://img.shields.io/badge/.NET-10.0-purple)
 
@@ -121,7 +121,7 @@ scripts/           Build and release scripts
 
 ## Build and test
 
-Requirements: Visual Studio 18.0 or later with the .NET desktop development workload and .NET 10 SDK.
+Requirements: Visual Studio 2022 with the .NET desktop workload and .NET 10 SDK.
 
 ```powershell
 dotnet restore WinDama.sln
