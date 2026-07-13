@@ -39,7 +39,7 @@ namespace WinDama
         private int? selectedColumn = null;
         private int? selectedRow = null;
         private readonly List<Move> highlightedLegalMoves = new List<Move>();
-        private Move lastMove = null;
+        private Move? lastMove;
         private const int AiTieBreakTolerance = 0;
         private const int BoardSquareSize = 80;
         private const int BoardOffset = 30;
@@ -142,37 +142,37 @@ namespace WinDama
 
         private sealed class UiGameSnapshot
         {
-            public WinDama.Core.GameSnapshot CoreSnapshot { get; set; }
-            public int[,] Board { get; set; }
+            public WinDama.Core.GameSnapshot? CoreSnapshot { get; set; }
+            public int[,] Board { get; set; } = new int[8, 8]; 
             public int CurrentPlayer { get; set; }
-            public Move LastMove { get; set; }
+            public Move? LastMove { get; set; }
             public TimeSpan Player1TimeRemaining { get; set; }
             public TimeSpan Player2TimeRemaining { get; set; }
             public bool IsGameOver { get; set; }
             public AiSearchMode SelectedAiSearchMode { get; set; }
             public GameMode SelectedGameMode { get; set; }
             public int MinimaxDepth { get; set; }
-            public string AiTimePerMoveText { get; set; }
-            public string GameClockMinutesText { get; set; }
-            public string StatusText { get; set; }
-            public string AnalysisSummaryText { get; set; }
-            public string SearchModeText { get; set; }
-            public string SearchDepthText { get; set; }
-            public string SearchNodesText { get; set; }
-            public string SearchEvalText { get; set; }
-            public string SearchBestMoveText { get; set; }
-            public string SearchTimeText { get; set; }
-            public string SearchNodesPerSecondText { get; set; }
-            public string SearchLegalMovesText { get; set; }
-            public string SearchBudgetText { get; set; }
-            public string SearchStatusText { get; set; }
-            public string SearchTranspositionText { get; set; }
-            public string SearchTopMovesText { get; set; }
-            public string SearchPrincipalVariationText { get; set; }
+            public string AiTimePerMoveText { get; set; } = string.Empty;
+            public string GameClockMinutesText { get; set; } = string.Empty;
+            public string StatusText { get; set; } = string.Empty;
+            public string AnalysisSummaryText { get; set; } = string.Empty;
+            public string SearchModeText { get; set; } = string.Empty;
+            public string SearchDepthText { get; set; } = string.Empty;
+            public string SearchNodesText { get; set; } = string.Empty;
+            public string SearchEvalText { get; set; } = string.Empty;
+            public string SearchBestMoveText { get; set; } = string.Empty;
+            public string SearchTimeText { get; set; } = string.Empty;
+            public string SearchNodesPerSecondText { get; set; } = string.Empty;
+            public string SearchLegalMovesText { get; set; } = string.Empty;
+            public string SearchBudgetText { get; set; } = string.Empty;
+            public string SearchStatusText { get; set; } = string.Empty;
+            public string SearchTranspositionText { get; set; } = string.Empty;
+            public string SearchTopMovesText { get; set; } = string.Empty;
+            public string SearchPrincipalVariationText { get; set; } = string.Empty;
             public bool IsBoardEditorMode { get; set; }
             public int EditorSelectedPieceValue { get; set; }
-            public string PositionNameText { get; set; }
-            public string PositionNotesText { get; set; }
+            public string PositionNameText { get; set; } = string.Empty;
+            public string PositionNotesText { get; set; } = string.Empty;
         }
 
         //-----------------------------------------------------------------------
@@ -484,7 +484,7 @@ namespace WinDama
             MinimaxDepth = newDepth;
             // Apply any necessary logic based on the updated depth
         }
-        
+
         //-----------------------------------------------------------------------
         private void ChessBoardGrid_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -1141,7 +1141,7 @@ namespace WinDama
 
 
 
-        
+
         //-----------------------------------------------------------------------
         private void ResetGame()
         {
@@ -3331,7 +3331,7 @@ namespace WinDama
         }
 
         //-----------------------------------------------------------------------
-        private Move CloneMove(Move move)
+        private Move? CloneMove(Move? move)
         {
             if (move == null)
             {
