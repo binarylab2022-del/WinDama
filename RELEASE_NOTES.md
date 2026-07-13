@@ -1,5 +1,13 @@
 # Release Notes
 
+## Platform migration to .NET 10
+
+- Retargeted the reusable Core engine and NUnit tests to `net10.0`.
+- Retargeted the WPF application to `net10.0-windows`.
+- Updated GitHub Actions to install the .NET 10 SDK.
+- Updated the README framework badge and development requirements.
+- Preserved the Windows x64 publishing target and existing validation suite.
+
 Repository: `https://github.com/binarylab2022-del/WinDama`
 
 ## WinDama 1.0.0-preview
@@ -11,7 +19,7 @@ This version is prepared as the GitHub continuation of the earlier SourceForge p
 ### Validation baseline
 
 - NUnit tests: **101 passed, 0 failed**
-- Target framework: **.NET 6.0 Windows / WPF**
+- Target framework: **.NET 10.0 Windows / WPF**
 - Release runtime target: **win-x64**
 
 ### Main engine features

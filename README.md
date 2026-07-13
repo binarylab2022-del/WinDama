@@ -1,6 +1,6 @@
 # WinDama â€” Algerian / Spanish Checkers
 
-[![Build](https://github.com/binarylab2022-del/WinDama/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/binarylab2022-del/WinDama/actions/workflows/build.yml) [![Tests](https://github.com/binarylab2022-del/WinDama/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/binarylab2022-del/WinDama/actions/workflows/tests.yml) ![Test baseline](https://img.shields.io/badge/tests-101%20passed-brightgreen) [![Release](https://img.shields.io/github/v/release/binarylab2022-del/WinDama?include_prereleases)](https://github.com/binarylab2022-del/WinDama/releases) [![License](https://img.shields.io/github/license/binarylab2022-del/WinDama)](LICENSE) ![Platform](https://img.shields.io/badge/platform-Windows%20x64-blue) ![Framework](https://img.shields.io/badge/.NET-6.0-purple)
+[![Build](https://github.com/binarylab2022-del/WinDama/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/binarylab2022-del/WinDama/actions/workflows/build.yml) [![Tests](https://github.com/binarylab2022-del/WinDama/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/binarylab2022-del/WinDama/actions/workflows/tests.yml) ![Test baseline](https://img.shields.io/badge/tests-101%20passed-brightgreen) [![Release](https://img.shields.io/github/v/release/binarylab2022-del/WinDama?include_prereleases)](https://github.com/binarylab2022-del/WinDama/releases) [![License](https://img.shields.io/github/license/binarylab2022-del/WinDama)](LICENSE) ![Platform](https://img.shields.io/badge/platform-Windows%20x64-blue) ![Framework](https://img.shields.io/badge/.NET-10.0-purple)
 
 WinDama is an open-source WPF application and reusable C# engine for
 Algerian / Spanish checkers. It combines a playable interface, centralized
@@ -49,7 +49,7 @@ The self-contained package normally requires no separate .NET installation.
 - Version: `1.0.0-preview`
 - Engine: `Core engine 2026.07`
 - Validation: `101 passed, 0 failed`
-- Framework: `.NET 6.0 Windows / WPF`
+- Framework: `.NET 10.0 Windows / WPF`
 - License: [MIT](LICENSE)
 
 ## Engine architecture
@@ -121,7 +121,7 @@ scripts/           Build and release scripts
 
 ## Build and test
 
-Requirements: Visual Studio 2022 with the .NET desktop workload and .NET 6 SDK.
+Requirements: Visual Studio 18.0 or later with the .NET desktop development workload and .NET 10 SDK.
 
 ```powershell
 dotnet restore WinDama.sln

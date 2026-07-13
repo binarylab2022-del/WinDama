@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFramework>net6.0-windows</TargetFramework>
+		<TargetFramework>net10.0-windows</TargetFramework>
 		<Nullable>enable</Nullable>
 		<UseWPF>true</UseWPF>
 
@@ -96,35 +96,17 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Include="..\README.md"
-			  Link="README.md"
-			  CopyToOutputDirectory="PreserveNewest"
-			  CopyToPublishDirectory="PreserveNewest" />
+		<None Include="..\README.md" Link="README.md" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
 
-		<None Include="..\RELEASE_NOTES.md"
-			  Link="RELEASE_NOTES.md"
-			  CopyToOutputDirectory="PreserveNewest"
-			  CopyToPublishDirectory="PreserveNewest" />
+		<None Include="..\RELEASE_NOTES.md" Link="RELEASE_NOTES.md" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
 
-		<None Include="..\LICENSE"
-			  Link="LICENSE"
-			  CopyToOutputDirectory="PreserveNewest"
-			  CopyToPublishDirectory="PreserveNewest" />
+		<None Include="..\LICENSE" Link="LICENSE" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
 
-		<None Include="..\TestPositions\*.json"
-			  Link="TestPositions\%(Filename)%(Extension)"
-			  CopyToOutputDirectory="PreserveNewest"
-			  CopyToPublishDirectory="PreserveNewest" />
+		<None Include="..\TestPositions\*.json" Link="TestPositions\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
 
-		<None Include="..\EvaluationWeights\*.json"
-			  Link="EvaluationWeights\%(Filename)%(Extension)"
-			  CopyToOutputDirectory="PreserveNewest"
-			  CopyToPublishDirectory="PreserveNewest" />
+		<None Include="..\EvaluationWeights\*.json" Link="EvaluationWeights\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
 
-		<None Include="..\OpeningBooks\*.ouv"
-			  Link="OpeningBooks\%(Filename)%(Extension)"
-			  CopyToOutputDirectory="PreserveNewest"
-			  CopyToPublishDirectory="PreserveNewest" />
+		<None Include="..\OpeningBooks\*.ouv" Link="OpeningBooks\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
 	</ItemGroup>
 
 </Project>

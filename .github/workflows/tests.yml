@@ -21,10 +21,13 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: Set up .NET
-        uses: actions/setup-dotnet@v4
+      - name: Set up .NET 10
+        uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: "6.0.x"
+          dotnet-version: '10.0.x'
+
+      - name: Display .NET information
+        run: dotnet --info
 
       - name: Restore
         run: dotnet restore WinDama.sln
@@ -45,5 +48,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: WinDama-test-results
-          path: "**/WinDamaTests.trx"
+          path: '**/WinDamaTests.trx'
           if-no-files-found: warn
