@@ -1,5 +1,25 @@
 # Release Notes
 
+## WinDama 1.0.1-preview
+### Platform and build
+- Migrated the WPF application to `.NET 10` and `net10.0-windows`.
+- Migrated the reusable Core engine and NUnit tests to `net10.0`.
+- Added reproducible SDK selection through `global.json`.
+- Updated GitHub Actions for .NET 10.
+- Updated the Windows x64 publishing workflow.
+### Code quality
+- Corrected nullable-reference handling in the WPF application.
+- Removed the remaining compiler warnings.
+- Preserved the existing 101-test regression baseline.
+### Documentation
+- Reorganized the README into a concise project overview.
+- Added architecture, move-generation, AI-search, bitboard, FPGA, and
+  screenshot documentation.
+- Updated requirements for Visual Studio Community 2026.
+### Distribution
+- Added a new self-contained Windows x64 package.
+- A separate .NET installation is normally not required.
+
 ## Platform migration to .NET 10
 
 - Retargeted the reusable Core engine and NUnit tests to `net10.0`.

@@ -10,7 +10,7 @@ $Project = Join-Path $RepoRoot "WinDama1.0\WinDama.csproj"
 $TestProject = Join-Path $RepoRoot "WinDama.Tests\WinDama.Tests.csproj"
 $PublishDir = Join-Path $RepoRoot "artifacts\publish\WinDama-win-x64"
 $PackageDir = Join-Path $RepoRoot "artifacts\packages"
-$PackagePath = Join-Path $PackageDir "WinDama-1.0.0-preview-win-x64.zip"
+$PackagePath = Join-Path $PackageDir "WinDama-1.0.1-preview-win-x64.zip"
 
 Write-Host "WinDama Release x64 publish" -ForegroundColor Cyan
 Write-Host "Repository: $RepoRoot"

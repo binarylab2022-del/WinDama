@@ -1,20 +1,20 @@
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Media;
+using System.Text;
+using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Media;
 using System.Windows.Threading;
-using System.Threading;
-using System.IO;
-using System.Text;
-using System.Text.Json;
-using System.ComponentModel;
-using Microsoft.Win32;
-
 using WinDama.Core;
+using static System.Net.Mime.MediaTypeNames;
 namespace WinDama
 {
     /// <summary>
@@ -1080,7 +1080,9 @@ namespace WinDama
 
             string summary = result == null
                 ? string.Empty
-                : analysisPanelUpdater?.UpdateFromResult(result, GetSearchModeLabel(result.Mode));
+                : (analysisPanelUpdater?.UpdateFromResult(
+                    result,
+                    GetSearchModeLabel(result.Mode)) ?? string.Empty);
 
             if (result == null)
             {
@@ -1101,7 +1103,11 @@ namespace WinDama
                 return;
             }
 
-            string summary = analysisPanelUpdater?.UpdateFromProgress(progress, GetSearchModeLabel(selectedAiSearchMode));
+            string summary =
+                analysisPanelUpdater?.UpdateFromProgress(
+                    progress,
+                    GetSearchModeLabel(selectedAiSearchMode))
+                ?? string.Empty;
             if (!string.IsNullOrWhiteSpace(summary))
             {
                 SetAnalysisSummary(summary);
@@ -1256,7 +1262,7 @@ namespace WinDama
             try
             {
                 Directory.CreateDirectory(DefaultTestPositionsFolder);
-                string suggestedName = BoardEditorController.BuildSafePositionFileName(PositionNameTextBox?.Text);
+                string suggestedName = BoardEditorController.BuildSafePositionFileName(PositionNameTextBox.Text ?? string.Empty);
                 SaveFileDialog dialog = new SaveFileDialog
                 {
                     Title = "Save WinDama test position",
@@ -1383,7 +1389,7 @@ namespace WinDama
             CancelBackgroundPositionAnalysis();
             ClearMoveSelection(redraw: false);
 
-            Move lastMoveForState = resetLastMove ? null : lastMove;
+            Move? lastMoveForState = resetLastMove ? null : lastMove;
             gameController.SetGameMode(selectedGameMode);
             gameController.RestoreState(board, currentPlayer, isGameOver: false, lastMove: lastMoveForState);
             SynchronizeFieldsFromGameController();
@@ -1499,7 +1505,9 @@ namespace WinDama
         {
             if (!Dispatcher.CheckAccess())
             {
-                Dispatcher.BeginInvoke(new Action(() => StartBackgroundPositionAnalysis(reason)));
+                _ = Dispatcher.BeginInvoke(
+                    new Action(() => StartBackgroundPositionAnalysis(reason)));
+
                 return;
             }
 
@@ -3394,7 +3402,10 @@ namespace WinDama
             // Empty target square after a piece was selected.
             if (pieceSelected && selectedRow.HasValue && selectedColumn.HasValue)
             {
-                Move validMove = highlightedLegalMoves.FirstOrDefault(move => move.End.Item1 == row && move.End.Item2 == column);
+                Move? validMove =
+                    highlightedLegalMoves.FirstOrDefault(
+                        move => move.End.Item1 == row &&
+                                move.End.Item2 == column);
                 if (validMove != null)
                 {
                     ClearMoveSelection(redraw: false);
