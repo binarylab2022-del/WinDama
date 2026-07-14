@@ -51,7 +51,7 @@ namespace WinDama
             int? selectedRow,
             int? selectedColumn,
             IReadOnlyList<Move> highlightedLegalMoves,
-            Move lastMove)
+            Move? lastMove)
         {
             if (canvas == null || board == null)
             {
@@ -70,10 +70,13 @@ namespace WinDama
                 for (int column = 0; column < board.GetLength(1); column++)
                 {
                     bool isSelectedSquare = pieceSelected && selectedRow == row && selectedColumn == column;
-                    Move highlightedMove = highlightedLegalMoves?.FirstOrDefault(m => m.End.Item1 == row && m.End.Item2 == column);
+                    Move? highlightedMove =
+                        highlightedLegalMoves.FirstOrDefault(
+                            m => m.End.Item1 == row && m.End.Item2 == column);
+
                     bool isMoveTarget = highlightedMove != null;
-                    bool isCaptureTarget = isMoveTarget && highlightedMove.CapturedPieces.Count > 0;
-                    bool isLastMoveStart = lastMove != null && lastMove.Start.Item1 == row && lastMove.Start.Item2 == column;
+                    bool isCaptureTarget =
+                        highlightedMove?.CapturedPieces.Count > 0; bool isLastMoveStart = lastMove != null && lastMove.Start.Item1 == row && lastMove.Start.Item2 == column;
                     bool isLastMoveEnd = lastMove != null && lastMove.End.Item1 == row && lastMove.End.Item2 == column;
                     bool isLastCapturedSquare = lastMove != null && lastMove.CapturedPieces.Any(c => c.Item1 == row && c.Item2 == column);
                     bool isLastMoveSquare = isLastMoveStart || isLastMoveEnd;
