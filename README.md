@@ -46,7 +46,7 @@ The self-contained package normally requires no separate .NET installation.
 
 ## Current baseline
 
-- Version: `1.0.0-preview`
+- Version: `1.0.1-preview`
 - Engine: `Core engine 2026.07`
 - Validation: `101 passed, 0 failed`
 - Framework: `.NET 10.0 Windows / WPF`
