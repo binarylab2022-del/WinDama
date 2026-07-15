@@ -1,0 +1,6 @@
+﻿# Repository supervisor and final code reviewer
+* @binarylab2022-del
+# Protect repository-management files
+/.github/ @binarylab2022-del
+/scripts/ @binarylab2022-del
+/Directory.Build.props @binarylab2022-del
